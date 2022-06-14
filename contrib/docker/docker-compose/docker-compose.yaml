@@ -1,0 +1,10 @@
+version: '3'
+services:
+  base:
+    image: backstage-base
+    build:
+      context: ../../../
+      dockerfile: ./contrib/docker/docker-compose/Dockerfile.base
+      args:
+        NODE_VERSION: 16-buster
+        PYTHON_VERSION: 3.8.2

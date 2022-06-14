@@ -6,3 +6,4 @@ node_modules
 packages/*/src
 packages/*/node_modules
 plugins
+yarn.lock
