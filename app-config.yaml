@@ -1,10 +1,10 @@
 app:
-  title: Backstage Example App
+  title: Backstage Tenaris-Demo
   baseUrl: http://localhost:3000
   googleAnalyticsTrackingId: # UA-000000-0
   #datadogRum:
   #  clientToken: '123456789'
-  #  applicationId: qwerty
+  #  applicationId: 
   #   site: # datadoghq.eu default = datadoghq.com
   #   env: # optional
 

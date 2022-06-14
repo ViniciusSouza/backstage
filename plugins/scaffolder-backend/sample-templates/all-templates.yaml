@@ -6,6 +6,8 @@ metadata:
 spec:
   targets:
     - ./remote-templates.yaml
+    - ./tenaris-service-template.yaml
+    
 # For local development of a template, you can reference your local templates here.
 # Examples:
 #

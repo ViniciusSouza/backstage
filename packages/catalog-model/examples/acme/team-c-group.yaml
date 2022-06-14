@@ -6,7 +6,7 @@ metadata:
 spec:
   type: team
   profile:
-    displayName: Team C
+    displayName: Ready Mind
     email: team-c@example.com
     picture: https://avatars.dicebear.com/api/identicon/team-c@example.com.svg?background=%23fff&margin=25
   parent: boxoffice
@@ -15,12 +15,12 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
-  name: calum.leavy
+  name: juan.pablo
 spec:
   profile:
-    displayName: Calum Leavy
-    email: calum-leavy@example.com
-    picture: https://avatars.dicebear.com/api/avataaars/calum-leavy@example.com.svg?background=%23fff
+    displayName: Juan Pablo
+    email: jpv@readymind.ms
+    picture: https://avatars.dicebear.com/api/avataaars/frank-tiernan@example.com.svg?background=%23fff
   memberOf: [team-c]
 ---
 apiVersion: backstage.io/v1alpha1

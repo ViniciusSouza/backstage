@@ -1,0 +1,86 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+# some metadata about the template itself
+metadata:
+  name: Tenaris-Demo
+  title: Tenaris Action template
+  description: scaffolder v1beta3 template demo
+spec:
+  owner: backstage/techdocs-core
+  type: service
+
+  # these are the steps which are rendered in the frontend with the form input
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+              - dev.azure.com
+
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./template
+        values:
+          name: ${{ parameters.name }}
+
+    - id: fetch-docs
+      name: Fetch Docs
+      action: fetch:plain
+      input:
+        targetPath: ./community
+        url: https://github.com/backstage/community/tree/main/backstage-community-sessions
+
+    - id: publish-azure
+      action: publish:azure
+      if: ${{ (parameters.repoUrl | parseRepoUrl).host === 'dev.azure.com' }}
+      input:
+        allowedHosts: ['dev.azure.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+    
+    - id: register-azure
+      name: Register Azure
+      action: catalog:register
+      if: ${{ (parameters.repoUrl | parseRepoUrl).host === 'dev.azure.com' }}
+      input:
+        repoContentsUrl: ${{ steps.publish-azure.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+    - id: publish-githHub
+      name: Publish
+      action: publish:github
+      if: ${{ (parameters.repoUrl | parseRepoUrl).host === 'github.com' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register-github
+      name: Register GitHub
+      action: catalog:register
+      if: ${{ (parameters.repoUrl | parseRepoUrl).host === 'github.com' }}
+      input:
+        repoContentsUrl: ${{ steps.publish-githHub.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
